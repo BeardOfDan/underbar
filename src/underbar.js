@@ -166,6 +166,29 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function (collection, iterator, accumulator) {
+    if (arguments.length > 2) { // if there is an accumulator
+      _.each(collection, function (item) {
+        accumulator = iterator(accumulator, item);
+      })
+    } else { // initialize accumulator to the collection's first item
+      if (Object.prototype.toString.call(collection) === "[object Array]") {
+        accumulator = collection[0];
+
+        _.each(collection.slice(1), function (item) {
+          accumulator = iterator(accumulator, item);
+        })
+      } else { // collection is an object
+        const firstKey = Object.keys(collection).slice(0, 1);
+        accumulator = collection[firstKey];
+        const remainingKeys = Object.keys(collection).slice(1);
+
+        for (let i = 0; i < remainingKeys.length; i++) {
+          accumulator = iterator(accumulator, collection[remainingKeys[i]]);
+        }
+      }
+    }
+
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
