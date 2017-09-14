@@ -278,6 +278,25 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function (obj) {
+    // get all of the keys from all of the sources
+    let sources = {};
+    for (let i = 1; i < arguments.length; i++) {
+      const arg = arguments[i];
+
+      _.each(Object.keys(arg), function (key) {
+        if (sources[key] === undefined) { // only add new keys
+          sources[key] = arg[key];
+        }
+      });
+    }
+
+    _.each(Object.keys(sources), function (key) {
+      if (obj[key] === undefined) { // only add new properties
+        obj[key] = sources[key];
+      }
+    });
+
+    return obj;
   };
 
 
