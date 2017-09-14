@@ -221,6 +221,21 @@
   // provided, provide a default one
   _.some = function (collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    // provide a default value for iterator
+    iterator = iterator ? iterator : _.identity;
+
+    // reverse the output for the iterator
+    const func = function (item) {
+      return !Boolean(iterator(item));
+    }
+
+    // Take the reverse of every, with the reversed iterator
+    // Returns if there is not nothing, the double negative cancels out
+    // meaning that it returns if there is something
+    return !_.every(collection, function (item) {
+      return func(item);
+    });
   };
 
 
