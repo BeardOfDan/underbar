@@ -258,6 +258,21 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function (obj) {
+    // get all of the keys from all of the sources
+    let sources = {};
+    for (let i = 1; i < arguments.length; i++) {
+      const arg = arguments[i];
+
+      _.each(Object.keys(arg), function (key) {
+        sources[key] = arg[key];
+      });
+    }
+
+    _.each(Object.keys(sources), function (key) {
+      obj[key] = sources[key];
+    });
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
