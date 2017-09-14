@@ -360,6 +360,17 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function (func, wait) {
+    // arguments to call 'func' with
+    let args = [];
+    for (let i = 2; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    return setTimeout(function () {
+      // using the 'spread operator' to make sure the arguments are set as individual parameters
+      // instead of a single array, this way they are the same as entered by the user
+      return func.call(null, ...args);
+    }, wait);
   };
 
 
