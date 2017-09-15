@@ -385,6 +385,30 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function (array) {
+    // for a randomly ordered array of indexes
+    const getRandomNum = function (limit) { // limit is array length
+      return ~~(Math.random() * (limit));
+    };
+
+    const end = array.length;
+    let copy = [];
+
+    // a randomly ordered array of indexes
+    let indexes = [];
+    while (indexes.length < end) {
+      let index = getRandomNum(end);
+      let contains = _.contains(indexes, index);
+      if (!contains) {
+        indexes.push(index);
+      }
+    }
+
+    // fill in a randomly ordered copy of the input array
+    for (let i = 0; i < end; i++) {
+      copy.push(array[indexes[i]]);
+    }
+
+    return copy;
   };
 
 
